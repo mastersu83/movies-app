@@ -1,0 +1,54 @@
+.header {
+  background: #000;
+  height: 70px;
+  margin-top: 10px;
+  display: grid;
+  grid-template:
+    minmax(auto, 70px) / 1fr minmax(auto, 160px) minmax(auto, 1130px)
+    minmax(auto, 210px) 1fr;
+  &__group {
+    display: grid;
+    grid-template: 1fr / repeat(3, 1fr);
+    align-items: center;
+    justify-items: end;
+  }
+  &__logoText {
+    align-self: center;
+    justify-content: start;
+    font-family: Mulish, sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    margin: 0;
+    color: #fff;
+  }
+  &__logo {
+    grid-column: 2/3;
+    display: grid;
+    grid-template: 1fr / 1fr 1fr;
+    text-decoration: none;
+    &:hover {
+      border-bottom: 2px solid #26fff2;
+      border-right: 2px solid #26fff2;
+      border-radius: 5px;
+      transition: 0.2s;
+    }
+  }
+  &__menu {
+    align-self: center;
+    justify-self: center;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 16px;
+    &_link {
+      margin: 30px;
+      color: #fff;
+      text-decoration: none;
+      &:hover {
+        border-bottom: 2px solid #26fff2;
+        border-right: 2px solid #26fff2;
+        border-radius: 5px;
+        transition: all 0.2s;
+      }
+    }
+  }
+}

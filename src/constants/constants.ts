@@ -1,1 +1,18 @@
-export const IMAGE_PATH = "https://image.tmdb.org/t/p/w500";
+export const genres = [
+  "All movies",
+  "Action",
+  "Adventure",
+  "Drama",
+  "Thriller",
+  "War",
+  "Crime",
+  "Documentary",
+  "Comedy",
+  "Music",
+  "Romance",
+  "Mystery",
+  "Fantasy",
+  "Horror",
+  "Musical",
+  "Biography",
+];

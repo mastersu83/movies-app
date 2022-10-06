@@ -1,11 +1,14 @@
 .header {
   background: #000;
+  width: 1500px;
+  margin: 10px auto 0;
   height: 70px;
-  margin-top: 10px;
-  display: grid;
-  grid-template:
-    minmax(auto, 70px) / 1fr minmax(auto, 160px) minmax(auto, 1130px)
-    minmax(auto, 210px) 1fr;
+  display: flex;
+  justify-content: space-between;
+
+  //grid-template:
+  //  minmax(auto, 70px) / 1fr minmax(auto, 160px) minmax(auto, 1130px)
+  //  minmax(auto, 210px) 1fr;
   &__group {
     display: grid;
     grid-template: 1fr / repeat(3, 1fr);

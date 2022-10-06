@@ -1,63 +1,55 @@
-import React, { FC } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./Shows.module.scss";
-import { DiscoverMovie, DiscoverTv, ResponseGenre } from "../../types/types";
-import { IMAGE_PATH } from "../../constants/constants";
-import action from "../../assets/genres/action.png";
+import { Category } from "../Category/Category";
+import { Movies } from "../Movies/Movies";
+import { IResponseMovies } from "../../types/types";
+import { useLazyGetGenresQuery } from "../../store/api/moviesApi";
+import { Paginate } from "../Paginnate/Paginate";
 
-interface ShowsPropsTypes {
-  title: string;
-  genresKey?: boolean;
-  actors?: boolean;
-  movies?: DiscoverMovie[];
-  tv?: DiscoverTv[];
-  genres?: ResponseGenre[];
-}
+const Shows = () => {
+  const [movies, setMovies] = useState<IResponseMovies>();
+  const [currentGenre, setCurrentGenre] = useState<string>("");
+  const [page, setPage] = useState<number>(0);
+  const [pageCount, setPageCount] = useState<number>(0);
 
-const Shows: FC<ShowsPropsTypes> = ({
-  title,
-  genresKey,
-  actors,
-  movies,
-  genres,
-  tv,
-}) => {
+  const [sortGenre, { data }] = useLazyGetGenresQuery();
+
+  const handleGetGenres = (genre: string) => {
+    setCurrentGenre(genre);
+    setPage(0);
+  };
+
+  const handlePageClick = (e: { selected: number }) => {
+    setPage(e.selected + 1);
+  };
+
+  const handlePreviousOrNext = (flag: boolean) => {
+    if (page !== 0 && page !== 1 && page !== Math.round(pageCount)) {
+      setPage(!flag ? page + 1 : page - 1);
+    }
+  };
+
+  useEffect(() => {
+    data && setMovies(data);
+    setPageCount(data ? data?.data.movie_count / 20 : 1);
+  }, [data]);
+
+  useEffect(() => {
+    sortGenre({ genre: currentGenre, page });
+  }, [page, currentGenre]);
   return (
-    <div className={classes.shows}>
-      <div className={classes.shows__title}>
-        <div className={classes.shows__titleRectangle} />
-        <a href="" className={classes.shows__titleText}>
-          <h2>{title}</h2>
-        </a>
+    <>
+      <div className={classes.shows}>
+        <Category handleGetGenres={handleGetGenres} />
+        <Movies movies={movies ? movies.data.movies : []} />
       </div>
-      <div
-        className={`${genresKey ? classes.genres__grid : classes.shows__grid}`}
-      >
-        {movies &&
-          movies.map((card) => (
-            <div key={card.id} className={`${classes.shows__gridItem}`}>
-              <img src={`${IMAGE_PATH}${card.backdrop_path}`} alt="" />
-              <span>{!actors ? card.title : card.overview}</span>
-              <span>{!actors ? card.vote_average : card.overview}</span>
-            </div>
-          ))}
-        {tv &&
-          tv.map((card) => (
-            <div key={card.id} className={`${classes.shows__gridItem}`}>
-              <img src={`${IMAGE_PATH}${card.backdrop_path}`} alt="" />
-              <span>{!actors ? card.name : card.overview}</span>
-              <span>{!actors ? card.vote_average : card.overview}</span>
-            </div>
-          ))}
-        {genres &&
-          genres.map((card) => (
-            <div key={card.id} className={`${classes.shows__gridItem}`}>
-              <img src={`${action}`} alt="" />
-              <span>{card.name}</span>
-            </div>
-          ))}
-      </div>
-      <button className={classes.shows__button}>See more</button>
-    </div>
+      <Paginate
+        pageCount={pageCount}
+        handlePreviousOrNext={handlePreviousOrNext}
+        handlePageClick={handlePageClick}
+        page={page}
+      />
+    </>
   );
 };
 

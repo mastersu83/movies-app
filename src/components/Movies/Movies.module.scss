@@ -1,0 +1,34 @@
+.movies {
+  display: grid;
+  grid-template: auto / repeat(5, 1fr);
+  gap: 20px;
+  &__gridItem {
+    display: flex;
+    flex-direction: column;
+    img {
+      background: linear-gradient(
+        109.31deg,
+        #fd093f 2.4%,
+        #fb1378 2.41%,
+        #fccb1a 100%
+      );
+      width: 100%;
+      border-radius: 20px;
+    }
+    span {
+      margin-top: 10px;
+      text-wrap: none;
+      font-size: 20px;
+    }
+  }
+
+  &__img {
+    cursor: pointer;
+    transition: ease-in-out 0.3s;
+
+    &:hover {
+      opacity: 0.5;
+      transition: ease-in-out 0.3s;
+    }
+  }
+}

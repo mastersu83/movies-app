@@ -1,5 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { IResponseMovies } from "../../types/types";
+import {
+  IData,
+  IMovie,
+  IResponseMovies,
+  IResponseOneMovie,
+} from "../../types/types";
 
 export const moviesApi = createApi({
   reducerPath: "moviesApi",
@@ -15,22 +20,40 @@ export const moviesApi = createApi({
   }),
 
   endpoints: (builder) => ({
-    getGenres: builder.query<IResponseMovies, { genre: string; page: number }>({
-      query: ({ genre, page }) => ({
+    getGenres: builder.query<
+      IData,
+      {
+        genre: string;
+        page: number;
+        sort_by: string;
+        query_term: string;
+        order_by: string;
+      }
+    >({
+      query: ({ genre, page, sort_by, query_term, order_by }) => ({
         url: `list_movies.json`,
         params: {
           page,
           genre,
+          sort_by,
+          order_by,
+          query_term,
         },
       }),
+      transformResponse: (response: IResponseMovies) => {
+        return response.data;
+      },
     }),
-    getOneMovie: builder.query<IResponseMovies, { movie_id: number }>({
+    getOneMovie: builder.query<IMovie, { movie_id: number }>({
       query: ({ movie_id }) => ({
         url: `movie_details.json`,
         params: {
           movie_id,
         },
       }),
+      transformResponse: (response: IResponseOneMovie) => {
+        return response.data.movie;
+      },
     }),
   }),
 });

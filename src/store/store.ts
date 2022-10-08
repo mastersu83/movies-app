@@ -1,21 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { moviesApi } from "./api/moviesApi";
+import moviesSlice from "./slices/moviesSlice";
 
 export const store = configureStore({
   reducer: {
-    // auth: authSlice.reducer,
-    // post: postsSlice.reducer,
-    // comment: commentsSlice.reducer,
+    movie: moviesSlice.reducer,
     [moviesApi.reducerPath]: moviesApi.reducer,
-    // [commentsApi.reducerPath]: commentsApi.reducer,
-    // [authApi.reducerPath]: authApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
-      moviesApi.middleware
-      // commentsApi.middleware,
-      // authApi.middleware
-    ),
+    getDefaultMiddleware().concat(moviesApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

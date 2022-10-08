@@ -21,14 +21,15 @@ export const Paginate: FC<PaginatePropsTypes> = ({
       pageClassName={classes.paginate__pageNumber}
       activeClassName={classes.paginate__selected}
       pageCount={pageCount}
-      breakLabel="..."
+      breakLabel={<div>...10</div>}
+      breakClassName={`${classes.paginate__previous} ${classes.paginate__pageNumber}`}
       nextClassName={`${classes.paginate__previous} ${
         classes.paginate__pageNumber
-      } ${page === Math.round(pageCount) ? classes.paginate__disable : ""}`}
+      } ${page === Math.ceil(pageCount) ? classes.paginate__disable : ""}`}
       nextLabel={<div onClick={() => handlePreviousOrNext(false)}>Next</div>}
       onPageChange={handlePageClick}
       pageRangeDisplayed={10}
-      marginPagesDisplayed={0}
+      marginPagesDisplayed={1}
       previousClassName={`${classes.paginate__previous} ${classes.paginate__pageNumber}`}
       previousLabel={
         <div onClick={() => handlePreviousOrNext(true)}>Previous</div>

@@ -5,30 +5,50 @@
   &__gridItem {
     display: flex;
     flex-direction: column;
-    img {
-      background: linear-gradient(
-        109.31deg,
-        #fd093f 2.4%,
-        #fb1378 2.41%,
-        #fccb1a 100%
-      );
-      width: 100%;
-      border-radius: 20px;
+    position: relative;
+    &:hover {
+      cursor: pointer;
+      .movies__img {
+        opacity: 0.5;
+        transition: ease-in-out 0.3s;
+      }
+
+      .movies__hoverTitleBox {
+        opacity: 1;
+        visibility: visible;
+        transition: ease-in-out 0.3s;
+      }
     }
-    span {
-      margin-top: 10px;
-      text-wrap: none;
-      font-size: 20px;
-    }
+  }
+  &__title {
+    margin-top: 10px;
+    text-wrap: none;
+    font-size: 20px;
   }
 
   &__img {
+    position: relative;
     cursor: pointer;
     transition: ease-in-out 0.3s;
-
-    &:hover {
-      opacity: 0.5;
-      transition: ease-in-out 0.3s;
-    }
+    width: 100%;
+    border-radius: 20px;
+  }
+  &__hoverTitleBox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+  }
+  &__hoverTitle {
+    font-size: 40px;
+    color: #ffffff;
   }
 }

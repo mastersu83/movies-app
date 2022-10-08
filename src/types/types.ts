@@ -46,7 +46,13 @@ export interface IData {
   page_number: number;
   movies: IMovie[];
 }
+export interface IDataOneMovie {
+  movie: IMovie;
+}
 
 export interface IResponseMovies {
   data: IData;
+}
+export interface IResponseOneMovie {
+  data: IDataOneMovie;
 }

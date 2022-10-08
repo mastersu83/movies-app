@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import classes from "./Shows.module.scss";
 import { Category } from "../Category/Category";
 import { Movies } from "../Movies/Movies";
-import { IResponseMovies } from "../../types/types";
 import { useLazyGetGenresQuery } from "../../store/api/moviesApi";
 import { Paginate } from "../Paginnate/Paginate";
+import { useAppDispatch, useAppSelector } from "../../hooks/appHooks";
+import { setMovies } from "../../store/slices/moviesSlice";
 
 const Shows = () => {
-  const [movies, setMovies] = useState<IResponseMovies>();
+  const dispatch = useAppDispatch();
+  const { movies } = useAppSelector((state) => state.movie);
+
   const [currentGenre, setCurrentGenre] = useState<string>("");
   const [page, setPage] = useState<number>(0);
   const [pageCount, setPageCount] = useState<number>(0);
@@ -24,24 +27,30 @@ const Shows = () => {
   };
 
   const handlePreviousOrNext = (flag: boolean) => {
-    if (page !== 0 && page !== 1 && page !== Math.round(pageCount)) {
+    if (page !== 0 && page !== 1 && page !== Math.ceil(pageCount)) {
       setPage(!flag ? page + 1 : page - 1);
     }
   };
 
   useEffect(() => {
-    data && setMovies(data);
-    setPageCount(data ? data?.data.movie_count / 20 : 1);
+    data && dispatch(setMovies(data.movies));
+    setPageCount(data ? data.movie_count / 20 : 1);
   }, [data]);
 
   useEffect(() => {
-    sortGenre({ genre: currentGenre, page });
+    sortGenre({
+      genre: currentGenre,
+      page,
+      sort_by: "",
+      query_term: "",
+      order_by: "",
+    });
   }, [page, currentGenre]);
   return (
     <>
       <div className={classes.shows}>
         <Category handleGetGenres={handleGetGenres} />
-        <Movies movies={movies ? movies.data.movies : []} />
+        <Movies movies={movies ? movies : []} />
       </div>
       <Paginate
         pageCount={pageCount}
